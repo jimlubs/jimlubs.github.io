@@ -24,9 +24,48 @@
         }
         .investment-card {
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .investment-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        .btn-base {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .btn-base:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        .btn-secondary {
+            background-color: #10B981;
+            color: white;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #16a34a;
+        }
+        .btn-outline {
+            border: 2px solid #2563eb;
+            color: #2563eb;
+        }
+        .btn-outline:hover {
+            background-color: #f1f5f9;
+        }
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
@@ -39,10 +78,10 @@
                     <span class="ml-2 text-xl font-bold text-blue-600">JimLubs Investment Hub</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button onclick="showLogin()" class="px-4 py-2 border-2 border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors">
+                    <button onclick="showLogin()" class="btn-base btn-outline">
                         Login
                     </button>
-                    <button onclick="showLogin()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                    <button onclick="showLogin()" class="btn-base btn-primary">
                         Sign Up
                     </button>
                 </div>
@@ -55,7 +94,7 @@
         <div class="text-center">
             <h1 class="text-5xl font-bold text-white mb-6">Welcome to JimLubs Investment Hub!</h1>
             <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">Unlock your financial future with JimLubs Investment Hub, where aspiring investors come to thrive!</p>
-            <button onclick="showLogin()" class="px-8 py-4 bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors text-lg font-semibold shadow-lg">
+            <button onclick="showLogin()" class="btn-base btn-primary text-lg shadow-lg px-8 py-4">
                 Start Your Investment Journey
             </button>
         </div>
@@ -106,6 +145,12 @@
                     <p class="text-gray-600 text-lg">Stay ahead with real-time data and essential trading skills. Master market analysis and portfolio management.</p>
                 </div>
                 <div class="bg-white/95 backdrop-blur-sm p-8 rounded-xl shadow-xl investment-card">
+                    <div class="flex items-center mb-6">
+                        <div class="p-3 bg-indigo-100 rounded-lg mr-4">
+                            <i data-lucide="shield-check" class="w-10 h-10 insurance-icon"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold">Life Insurance
+                                        <div class="bg-white/95 backdrop-blur-sm p-8 rounded-xl shadow-xl investment-card">
                     <div class="flex items-center mb-6">
                         <div class="p-3 bg-indigo-100 rounded-lg mr-4">
                             <i data-lucide="shield-check" class="w-10 h-10 insurance-icon"></i>
