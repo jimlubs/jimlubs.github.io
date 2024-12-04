@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JimLubs Investment Chat Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1d4ed8;
+            --background-color: #f3f4f6;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+        
+        .message-container {
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .message-bubble {
+            animation: fadeIn 0.3s ease-in-out;
+            transition: transform 0.2s ease;
+        }
+        
+        .message-bubble:hover {
+            transform: scale(1.01);
+        }
+        
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            margin: 10px 0;
+        }
+        
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-right: 4px;
+            background-color: #6b7280;
+            border-radius: 50%;
+            animation: typing 1s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .input-field:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="flex items-center justify-center min-h-screen">
+        <div class="p-8 bg-white rounded-lg shadow-xl w-96 transform transition-all hover:scale-105">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">JimLubs Investment Chat</h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" class="input-field mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" class="input-field mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500" required>
+                </div>
+                <button type="submit" class="gradient-btn w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chat Screen -->
+    <div id="chatScreen" class="flex flex-col h-screen hidden">
+        <header class="bg-white shadow-md">
+            <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">JimLubs Investment Chat</h1>
+                <div class="flex items-center space-x-4">
+                    <div id="onlineUsers" class="text-sm text-gray-600"></div>
+                    <span id="currentUser" class="text-gray-700 font-medium"></span>
+                    <button onclick="handleLogout()" class="gradient-btn px-3 py-2 rounded-md text-sm font-medium text-white">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col">
+                <div id="messages" class="message-container py-6 space-y-4">
+                    <!-- Messages will be inserted here -->
+                </div>
+                
+                <div id="typingIndicator" class="hidden">
+                    <div class="typing-indicator">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                </div>
+
+                <div class="py-4">
+                    <form id="messageForm" class="flex space-x-4">
+                        <input type="text" id="messageInput" placeholder="Type your message..." 
+                               class="input-field flex-1 rounded-lg border border-gray-300 shadow-sm">
+                        <button type="submit" class="gradient-btn px-6 py-2 rounded-lg text-sm font-medium text-white flex items-center">
+                            Send
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let typingTimeout = null;
+        let onlineUsers = new Set();
+        const messages = [
+            { id: 1, user: 'System', content: 'Welcome to JimLubs Investment Chat Room', timestamp: new Date() },
+            { id: 2, user: 'John', content: "Hey everyone! How's the market today?", timestamp: new Date() }
+        ];
+
+        // Simulate online users
+        function updateOnlineUsers() {
+            const users = Array.from(onlineUsers);
+            const count = users.length;
+            document.getElementById('onlineUsers').textContent = `${count} user${count !== 1 ? 's' : ''} online`;
+        }
+
+        // Typing Indicator
+        function showTypingIndicator(user) {
+            const indicator = document.getElementById('typingIndicator');
+            indicator.classList.remove('hidden');
+            setTimeout(() => {
+                indicator.classList.add('hidden');
+            }, 3000);
+        }
+
+        document.getElementById('messageInput').addEventListener('input', function() {
+            clearTimeout(typingTimeout);
+            showTypingIndicator(currentUser);
+            typingTimeout = setTimeout(() => {
+                document.getElementById('typingIndicator').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                currentUser = username;
+                document.getElementById('currentUser').textContent = username;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('chatScreen').classList.remove('hidden');
+                onlineUsers.add(username);
+                updateOnlineUsers();
+                renderMessages();
+            }
+        });
+
+        // Message Form Handler
+        document.getElementById('messageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById('messageInput');
+            const content = messageInput.value.trim();
+            
+            if (content && currentUser) {
+                const newMessage = {
+                    id: messages.length + 1,
+                    user: currentUser,
+                    content: content,
+                    timestamp: new Date()
+                };
+                messages.push(newMessage);
+                messageInput.value = '';
+                renderMessages();
+            }
+        });
+
+        // Logout Handler
+        function handleLogout() {
+            onlineUsers.delete(currentUser);
+            updateOnlineUsers();
+            currentUser = null;
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('chatScreen').classList.add('hidden');
+        }
+
+        // Render Messages
+        function renderMessages() {
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = messages.map(message => `
+                <div class="flex ${message.user === currentUser ? 'justify-end' : 'justify-start'}">
+                    <div class="message-bubble max-w-xl px-4 py-2 rounded-lg ${
+                        message.user === currentUser 
+                            ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white' 
+                            : 'bg-white text-gray-900'
+                    } shadow-sm">
+                        <div class="font-medium text-sm">
+                            ${message.user === currentUser ? 'You' : message.user}
+                        </div>
+                        <div class="mt-1">${message.content}</div>
+                        <div class="text-xs opacity-75 mt-1">
+                            ${message.timestamp.toLocaleTimeString()}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Initial render
+        renderMessages();
+    </script>
+</body>
+</html>
