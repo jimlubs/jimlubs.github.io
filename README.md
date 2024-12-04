@@ -1,5 +1,3 @@
-# jimlubs.github.io
-
 # JimLubs Investment Chat - Setup Guide
 
 ## Prerequisites
