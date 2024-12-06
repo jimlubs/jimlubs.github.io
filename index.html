@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JimLubs Investment Community (JIC)</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #4299e1;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .hero {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #e2e8f0;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card .emoji {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .cta {
+            text-align: center;
+            padding: 4rem 1rem;
+            background-color: var(--light-bg);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JimLubs Investment Community (JIC)</h1>
+        <p class="tagline">Where your passion for building a successful investment portfolio comes to life!</p>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p>We empower individuals like you to explore the dynamic worlds of stock market investing, life insurance, and real estate. With invaluable resources, expert insights, and a supportive community, you'll navigate the investment landscape with confidence.</p>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <span class="emoji">💰</span>
+                <h3>Stock Market Mastery</h3>
+                <p>Learn proven strategies to navigate the stock market with confidence. From fundamental analysis to technical trading, master the skills needed for successful investing.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="emoji">🛡️</span>
+                <h3>Life Insurance Strategies</h3>
+                <p>Discover how to leverage life insurance as a powerful financial tool. Understand different policies and how they can complement your investment portfolio.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="emoji">🏘️</span>
+                <h3>Real Estate Opportunities</h3>
+                <p>Unlock the potential of real estate investing. Learn about property analysis, market trends, and how to build a profitable real estate portfolio.</p>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Join Our Thriving Community Today</h2>
+            <p>Embark on your journey toward financial independence—your future starts here!</p>
+            <br>
+            <a href="#" class="cta-button">Get Started Now</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JimLubs Investment Community (JIC). All rights reserved.</p>
+    </footer>
+
+    <div id="chatbot-root"></div>
+    <script type="module">
+        import { createRoot } from 'react-dom/client';
+        import Chatbot from './chatbot.js';
+        
+        const chatbotRoot = createRoot(document.getElementById('chatbot-root'));
+        chatbotRoot.render(<Chatbot />);
+    </script>
+</body>
+</html>
