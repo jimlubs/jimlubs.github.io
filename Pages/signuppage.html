@@ -25,7 +25,15 @@
             line-height: 1.6;
             color: var(--text-color);
         }
-
+        h1{
+            text-align: center;
+        }
+        .footer-tagline{
+            text-align: center;  
+        }
+        .tagline{
+            text-align: center;
+        }
         /* Previous styles remain the same... */
 
         /* New styles for the sign-up form */
@@ -210,7 +218,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2024 JimLubs Investment Community (JIC). All rights reserved.</p>
+        <p class="footer-tagline">&copy; 2024 JimLubs Investment Community (JIC). All rights reserved.</p>
     </footer>
 
     <div id="chatbot-root"></div>
@@ -222,4 +230,3 @@
         chatbotRoot.render(<Chatbot />);
     </script>
 </body>
-</html>
